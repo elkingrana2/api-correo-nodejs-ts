@@ -1,12 +1,13 @@
-import express, { Request, Response } from 'express';
+import app from './app';
 
-const app = express();
-const port = 3000;
+// start the Express server
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
+const server = app.listen(app.get('port'), () => {
+  console.log(
+    `server started at http://localhost:%d in %s mode`,
+    app.get('port'),
+    app.get('env')
+  );
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en el puerto ${port}`);
+  console.log('Press Ctrl+C to stop\n');
 });
