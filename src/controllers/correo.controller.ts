@@ -1,22 +1,26 @@
-import { Request, Response } from 'express';
-import CorreoService from '../services/correo.service';
+import { NextFunction, Request, Response } from "express";
+import CorreoService from "../services/correo.service";
 
 const service = new CorreoService();
 
-export const sendEmail = async (
-  req: Request,
-  res: Response
-): Promise<Response | void> => {
+export const sendEmail = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
   try {
     const { placa, correo, idParqueadero, mensaje } = req.body;
-    service.sendEmail(placa, correo, idParqueadero, mensaje);
+    const response = await service.sendEmail(placa, correo, idParqueadero, mensaje);
     return res.status(200).json({
-      message: 'Correo enviado exitosamente',
+      message: response,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: 'Error al enviar el correo',
-    });
+    next(error);
+  }
+};
+
+// optener las solicitudes
+export const getSolicitudes = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+  try {
+    const solicitudes = await service.getSolicitudes();
+    return res.status(200).json({ solicitudes });
+  } catch (error) {
+    next(error);
   }
 };

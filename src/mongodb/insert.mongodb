@@ -1,0 +1,14 @@
+use("db_parking");
+
+export const guardarSolicitud = (db, solicitud) => {
+  db.solicitudes.insertOne(solicitud);
+};
+
+db.solicitudes.insertOne({
+  placa: "MNO163",
+  correo: "elkin@gmail.com",
+  idParqueadero: 1,
+  mensaje: "Hola, este es un mensaje de prueba",
+});
+
+//export default
